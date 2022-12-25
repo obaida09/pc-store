@@ -1,0 +1,72 @@
+@import './base.css';
+
+@media only screen and (min-width: 1500px) {
+  .container {
+    max-width: 1500px;
+  }
+}
+
+.tx-second {
+  color: #ff1d58;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+
+
+/* Edit Scrollbar */
+body::-webkit-scrollbar {
+  width: .2em;
+}
+body::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px #0049b71e;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #0049b7;
+  outline: 1px solid #0049b7;
+  border-radius: 5px;
+}
+
+body {
+  font-family: 'Rubik', sans-serif;
+  height: auto;
+}
+
+.font-2 {
+  font-family: 'Kalam', cursive;
+}
+
+.font-lato {
+  font-family: 'Lato', sans-serif;
+}
+
+ul {
+padding-left: 0;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: #14171A;
+  transition: 0.4s;
+}
+
+@media (hover: hover) {
+  a:hover {
+    color: #035ce0;
+  }
+}
+
+/* @media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
+
+  #app {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem;
+  }
+} */

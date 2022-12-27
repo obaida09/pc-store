@@ -41,6 +41,9 @@ export default {
     this.getProducts();
     this.getTags();
   },
+  watch: {
+    
+  },
   methods: {
     async getCategories() {
       try {

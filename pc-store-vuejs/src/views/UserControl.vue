@@ -3,20 +3,25 @@ import axios from "axios";
 import Cookies from 'js-cookie';
 import profile from "../components/user/Profile.vue";
 import addresses from "../components/user/addresses.vue";
+import orders from "../components/user/orders.vue";
 
 export default {
   components: {
     profile,
     addresses,
+    orders,
   },
   created() {
     this.getProfile();
     this.getAddresses();
+    this.getOrders();
   },
   data() {
     return {
       userInformation: {},
       userAddresses: {},
+      userOrders: {},
+      refresh: 'f',
       getComponents: 'dashboard',
       userData: {
         token: Cookies.get('token'),
@@ -40,7 +45,7 @@ export default {
         );
         this.userInformation = response.data.data;
       } catch (error) {
-        console.log(error);
+        console.log(error.code);
       }
     },
     async getAddresses() {
@@ -57,11 +62,39 @@ export default {
           }
         );
         this.userAddresses = response.data.data;
-        console.log(response.data);
       } catch (error) {
-        console.log(error);
+        console.log(error.code);
       }
     },
+    async getOrders() {
+      try {
+        const response = await axios.get(
+          'http://127.0.0.1:8000/api/orders',
+          {
+            headers: {
+              'Authorization': 'Bearer ' + this.userData.token
+            },
+            params: {
+              username: this.userData.username,
+            }
+          }
+        );
+        this.userOrders = response.data.data;
+        console.log(response.data);
+      } catch (error) {
+        console.log(error.code);
+      }
+    },
+
+    logout() {
+      Cookies.remove('token');
+      Cookies.remove('name');
+      location.reload();
+    },
+
+    refresh(message) {
+      console.log(message)
+    }
   }
 }
 
@@ -73,14 +106,17 @@ export default {
       <div class="row">
         <div class="col-md-9">
           <div class="content">
+            {{ refresh }}
             <div v-if="getComponents == 'dashboard'"></div>
             <div v-else-if="getComponents == 'profile'">
               <profile :userInformation="this.userInformation"/>
             </div>
             <div v-else-if="getComponents == 'addresses'">
-              <addresses :userAddresses="this.userAddresses"/>
+              <addresses :userAddresses="this.userAddresses" :userData="this.userData" @refresh="refresh"/>
             </div>
-            <div v-else-if="getComponents == 'orders'"></div>
+            <div v-else-if="getComponents == 'orders'">
+              <orders :userOrders="this.userOrders" :userData="this.userData" @refresh="refresh"/>
+            </div>
             <div v-else=""></div>
           </div>
         </div>
@@ -95,7 +131,7 @@ export default {
               <li @click="this.getComponents = 'addresses'" :class='getComponents == "addresses" ? "active" : ""'>
                 Addresses</li>
               <li @click="this.getComponents = 'orders'" :class='getComponents == "orders" ? "active" : ""'>Orders</li>
-              <li @click="this.getComponents = 'logout'">Logout</li>
+              <li @click="logout()">Logout</li>
             </ul>
           </div>
         </div>

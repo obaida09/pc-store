@@ -5,7 +5,7 @@
         <div class="el d-flex justify-content-between">
           <div class="auth">
             <ul v-if="this.customerData.token">
-              <li>{{ this.customerData.username }}</li> -
+              <RouterLink to="/myAccount">{{ this.customerData.username }}</RouterLink> -
               <li @click="logout()">Logout</li>
             </ul>
             <ul v-else>
@@ -74,11 +74,17 @@
                 <input type="email" v-model="formLoginData.email" name="email" class="form-control">
               </div>
               <div class="error text-danger">{{ loginError.email ? loginError.email : '' }}</div>
-              <div class="form-group d-flex justify-content-between mb-3">
+              <div class="form-group d-flex justify-content-between mb-4">
                 <label class="control-label">Password</label>
                 <input type="password" v-model="formLoginData.password" name="password" class="form-control">
               </div>
               <div class="error text-danger">{{ loginError.password ? loginError.password : '' }}</div>
+              <div class="form-check">
+                <input class="form-check-input" v-model="tokenExpire" name="remember_me" type="checkbox" value="" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Remmember Me
+                </label>
+              </div>
               <RouterLink class="forgot-pass" to="/shop">Forgotten Password</RouterLink>
             </div>
             <hr>
@@ -138,10 +144,16 @@
                 <input type="password" v-model="formRegisterData.password" name="password" class="form-control">
               </div>
               <div class="error text-danger">{{ registerError.password ? registerError.password : '' }}</div>
-              <div class="form-group d-flex justify-content-between mb-3">
+              <div class="form-group d-flex justify-content-between mb-4">
                 <label class="control-label">Password Confirm <span class="text-danger">*</span></label>
                 <input type="password" v-model="formRegisterData.password_confirm" name="password_confirm"
                   class="form-control">
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" v-model="tokenExpire" name="remember_me" type="checkbox" value="9" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Remmember Me
+                </label>
               </div>
             </div>
             <hr>
@@ -183,6 +195,8 @@ export default {
       },
       registerError: [],
       loginError: [],
+
+      tokenExpire: '',
     };
   },
   methods: {
@@ -201,9 +215,10 @@ export default {
           // close modal after rejister
           this.closeModal('#register-modal')
           // Save the token and name to cookies
-          Cookies.set('token', response.data.data.token, { expires: 7 })
-          Cookies.set('name', response.data.data.username, { expires: 7 })
+          Cookies.set('token', response.data.data.token, { expires: this.tokenExpire ? 9 : 0.5 })
+          Cookies.set('name', response.data.data.username, { expires: this.tokenExpire ? 9 : 0.5 })
           this.customerData.token = response.data.data.token;
+          this.customerData.username = response.data.data.usernaem;
           // remove input after sucsses
           this.formRegisterData = []
           // remove error after sucsses
@@ -228,13 +243,15 @@ export default {
           // close modal after login
           this.closeModal('#login-modal')
           // Save the token and name to cookies
-          Cookies.set('token', response.data.data.token, { expires: 7 })
-          Cookies.set('name', response.data.data.username, { expires: 7 })
+          Cookies.set('token', response.data.data.token, { expires: this.tokenExpire ? 9 : 0.5 })
+          Cookies.set('name', response.data.data.username, { expires:  this.tokenExpire ? 9 : 0.5})
           this.customerData.token = response.data.data.token;
+          this.customerData.username = response.data.data.usernaem;
           // remove input after sucsses
           this.formLoginData = []
           // remove error after sucsses
           this.loginError = []
+
         } else {
           this.loginError = response.data.data;
         }
@@ -247,6 +264,7 @@ export default {
       Cookies.remove('token');
       Cookies.remove('name');
       this.customerData.token = null;
+      location.reload();
     },
 
     openModal(modalId) {

@@ -251,7 +251,6 @@ export default {
           this.formLoginData = []
           // remove error after sucsses
           this.loginError = []
-
         } else {
           this.loginError = response.data.data;
         }

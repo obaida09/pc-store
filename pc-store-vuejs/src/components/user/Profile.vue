@@ -58,12 +58,12 @@ export default {
       </div>
       <div class="body font-lato mt-2 pe-4">
         <div class="form-group d-flex justify-content-between mb-3">
-          <label class="control-label">New Password <span class="text-danger">*</span></label>
+          <label class="control-label">New Password</label>
           <input type="password" name="password" class="form-control">
         </div>
         <!-- <div class="error text-danger">{{ 'fail' }}</div> -->
         <div class="form-group d-flex justify-content-between mb-3">
-          <label class="control-label">New Password Confirm <span class="text-danger">*</span></label>
+          <label class="control-label">New Password Confirm</label>
           <input type="password" name="password_confirm" class="form-control">
         </div>
       </div>

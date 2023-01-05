@@ -21,7 +21,7 @@ export default {
       userInformation: {},
       userAddresses: {},
       userOrders: {},
-      refresh: 'f',
+      refresh: '',
       getComponents: 'dashboard',
       userData: {
         token: Cookies.get('token'),

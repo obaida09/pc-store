@@ -21,9 +21,9 @@ export default {
       </li>
       <li class="table-row font-lato" v-for="(order, index) in userOrders" :key="index">
         <div class="col col-1" data-label="Job Id">{{ order.ref_id }}</div>
-        <div class="col col-2" data-label="Customer Name">{{ order.subtotale }}</div>
-        <div class="col col-3" data-label="Amount">{{ order.total }}</div>
-        <div class="col col-4" data-label="Payment Status">{{ order.discount }}</div>
+        <div class="col col-2" data-label="Customer Name">{{ order.subtotale }} $</div>
+        <div class="col col-3" data-label="Amount">{{ order.total }} $</div>
+        <div class="col col-4" data-label="Payment Status">{{ order.discount == 0  ? 'None': order.discount }}</div>
         <div class="col col-5" data-label="Payment Status">{{ order.order_status }}</div>
       </li>
     </ul>
